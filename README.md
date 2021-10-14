@@ -9,7 +9,7 @@ Aplicação feita como ativadade prática de desenvolvimento backend.
 - Swagger - Documentação de APIs RESTful
 - PostgreSQL
 
-Machines App permite adicionar, editar e remover máquinas (nome) e status (codigo, nome).
+Machines App permite adicionar, editar e remover máquinas (nome) e status (código, nome).
 Também armazena eventos das máquinas e seus status.
 
 Para instalar, execute
