@@ -1,4 +1,4 @@
-# Machines App
+# Machines API
 
 Aplicação feita como ativadade prática de desenvolvimento backend. 
 
