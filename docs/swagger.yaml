@@ -1,0 +1,309 @@
+openapi: 3.0.3
+info:
+  title: Machines API
+  version: 1.0.0
+  description: A simple API
+paths:
+  /api/machines:
+    get:
+      summary: Find all machines
+      tags: 
+        - Machines
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Machine'
+    post:
+      summary: Create a new machine
+      tags:
+        - Machines
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Machine'
+      responses:
+        200:
+          description: Machine created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+  /api/machines/{machineId}:
+    parameters:
+      - name: machineId
+        description: The ID of the machine to be found
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Find machine by ID
+      tags:
+        - Machines
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+        404:
+          $ref: '#/components/responses/notFound'
+    put:
+      summary: Update a machine
+      tags:
+        - Machines
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Machine'
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+        404:
+          $ref: '#/components/responses/notFound'
+    delete:
+      summary: Delete the machine with the given ID
+      tags:
+        - Machines
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Machine'
+        404:
+          $ref: '#/components/responses/notFound'
+  /api/status:
+    get:
+      summary: Find all status
+      tags:
+        - Status
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+    post:
+      summary: Create a new status
+      tags:
+        - Status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        200:
+          description: Status created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        422:
+          description: Code already on use
+          content:
+            application/json: {}
+  /api/status/{code}:
+    parameters:
+      - name: code
+        description: The code of the status to be found
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Find status by code
+      tags:
+        - Status
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        404:
+          $ref: '#/components/responses/notFound'
+    put:
+      summary: Update a status
+      tags:
+        - Status
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Status'
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        404:
+          $ref: '#/components/responses/notFound'
+        422:
+          description: Code already on use
+          content:
+            application/json: {}
+    delete:
+      summary: Delete a status
+      tags:
+        - Status
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Status'
+        404:
+          $ref: '#/components/responses/notFound'
+  /api/events:
+    get:
+      summary: Find all events
+      tags: [Events]
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+    post:
+      summary: Create a new event
+      tags: [Events]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Events'
+      responses:
+        200:
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+  /api/events/{eventId}:
+    parameters:
+      - name: eventId
+        description: The ID of the event to be found
+        in: path
+        required: true
+        schema:
+          type: integer
+    get:
+      summary: Find event by ID
+      tags: [Events]
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+        404:
+          $ref: '#/components/responses/notFound'
+    delete:
+      summary: Delete the event with the given ID
+      tags: [Events]
+      responses:
+        200:
+          description: Operation successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Events'
+        404:
+          $ref: '#/components/responses/notFound'
+components:
+  responses:
+    notFound:
+      description: Entity not found
+      content:
+        application/json: {}
+    badRequest:
+      description: Bad resquest
+      content:
+        application/json: {}
+  schemas:
+    Machine:
+      type: object
+      required:
+        - name
+      properties:
+        id:
+          type: integer
+          description: The ID of the machine
+        name:
+          type: string
+          description: The name of the machine
+      example:
+        id: 1
+        name: Frigobar
+    Status:
+      type: object
+      required:
+        - name
+      properties:
+        code:
+          type: integer
+          description: The code of the status
+        name:
+          type: string
+          description: The name of the status
+      example:
+         code: 1
+         name: Success
+    Events:
+      type: object
+      required:
+        - machineId
+        - statusCode
+      properties:
+        id:
+          type: integer
+          description: The ID of the event
+        occurredAt:
+          type: string
+          format: date-time
+          description: The date the event occurred 
+        machineId:
+          type: integer
+          description: The ID of the machine where the event occurred
+        statusCode:
+          type: integer
+          description: The event status code
+      example:
+        id: 1
+        occurredAt: "2021-08-05T00:51:13.401Z"
+        machineId: 1
+        statusCode: 1
+tags:
+  - name: Machines
+    description: The machines managing API
+  - name: Status
+    description: The status managing API
+  - name: Events
+    description: The events managing API
